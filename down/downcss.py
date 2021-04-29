@@ -5,7 +5,6 @@ from bs4 import BeautifulSoup
 
 downpath = "css"
 
-
 def downcss(res, path, downurl):
     soup = BeautifulSoup(res, 'html.parser')
     utils.makedir(path + '/' + downpath)

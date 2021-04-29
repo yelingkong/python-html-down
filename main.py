@@ -12,12 +12,8 @@ from savepage.savepage import savepage
 
 
 def main():
-    # downurl = "https://youda.com.cn"
-
+    downurl = "https://wanjunshijie.com"
     path = 'web'
-    # downurl = "http://www.baidu.com/"
-    downurl = "https://www.wanjunshijie.com/"
-    # downurl = "http://dhz.wanjunshijie.com/"
     jiexi(downurl, path)
 
 
