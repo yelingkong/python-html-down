@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 
 downpath = "js"
 
+
 def downjs(res, path, downurl):
     soup = BeautifulSoup(res, 'html.parser')
     utils.makedir(path + '/' + downpath)
@@ -13,6 +14,8 @@ def downjs(res, path, downurl):
             if tag.has_attr('src'):
                 print(tag['src'])
                 if bool(re.search('.js', tag['src'])):
-                    res = res.replace(tag['src'], '/js/' + utils.getFileName(tag['src']))
-                    utils.download_file(utils.geturl(tag['src'], downurl), path + '/js/')
+                    res = res.replace(tag['src'],
+                                      utils.download_file(utils.geturl(tag['src'], downurl), path, downpath + '/'))
+                    # res = res.replace(tag['src'], utils.getFileNameOrRename('/js/', tag['src']))
+
     return res
