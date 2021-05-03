@@ -12,7 +12,7 @@ def downcss(res, path, downurl):
         if tag.name in ["link"]:
             if tag.has_attr('href'):
                 if bool(re.search('.css', tag['href'])):
-                    nameurl = utils.download_file(utils.geturl(tag['href'], downurl), path, downpath + '/')
+                    nameurl = utils.download_file(utils.geturl(tag['href'], downurl), path, downpath + '/', downurl)
                     # 下载图片内的文件
                     utils.Handlefile(nameurl, path, downurl)
                     print(nameurl)

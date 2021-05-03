@@ -14,7 +14,7 @@ def downjs(res, path, downurl):
                 print(tag['src'])
                 if bool(re.search('.js', tag['src'])):
                     res = res.replace(tag['src'],
-                                      utils.download_file(utils.geturl(tag['src'], downurl), path, downpath + '/'))
+                                      utils.download_file(utils.geturl(tag['src'], downurl), path, downpath + '/',downurl))
                     # res = res.replace(tag['src'], utils.getFileNameOrRename('/js/', tag['src']))
 
     return res

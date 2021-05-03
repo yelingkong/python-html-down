@@ -7,11 +7,13 @@ import hashlib
 
 
 # 下载文件
-def download_file(url, path, savepath):
+def download_file(url, path, savepath, downurl):
     print('下载文件:' + url)
     makedir(path + '/' + savepath)
     headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36 QIHU 360SE"}
+        "User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36 QIHU 360SE",
+        "Referer": downurl
+    }
     r = requests.get(url, headers=headers)
 
     name = getFileName(url)
@@ -122,13 +124,13 @@ def Handlefile(nameurl, path, downurl):
     file.close()
     rs = re.findall('url\((\S*)\)', content, re.S)
     for item in rs:
-        if bool(re.search('data:image', item)):
+        if bool(re.search('data:', item)):
             print('base64图片不需要下载')
         elif bool(re.search('../', item)):
-            download_file(geturl(replacex(item), downurl), path, 'images/')
+            download_file(geturl(replacex(item), downurl), path, 'images/', downurl)
         else:
             item = replacex(item)
-            download_file(geturl(replacex(item), downurl), path, 'images/')
+            download_file(geturl(replacex(item), downurl), path, 'images/', downurl)
 
 
 def replacex(str):
