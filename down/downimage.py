@@ -7,7 +7,6 @@ downpath = "images"
 
 def downimg(res, path, downurl):
     soup = BeautifulSoup(res, 'html.parser')
-    utils.makedir(path + '/' + downpath)
     for tag in soup.find_all():
         if tag.name in ["img"]:
             if tag.has_attr('src'):

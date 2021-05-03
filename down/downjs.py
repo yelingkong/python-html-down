@@ -8,7 +8,6 @@ downpath = "js"
 
 def downjs(res, path, downurl):
     soup = BeautifulSoup(res, 'html.parser')
-    utils.makedir(path + '/' + downpath)
     for tag in soup.find_all():
         if tag.name in ["script"]:
             if tag.has_attr('src'):

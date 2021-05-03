@@ -12,7 +12,7 @@ from savepage.savepage import savepage
 
 
 def main():
-    downurl = "https://wanjunshijie.com"
+    downurl = "http://dhz.wanjunshijie.com/"
     path = 'web'
     jiexi(downurl, path)
 
@@ -27,7 +27,7 @@ def jiexi(downurl, path):
     res = urllib.request.urlopen(req).read().decode('utf-8')
     res = downjs(res, path, downurl)  # 下载js
     res = downcss(res, path, downurl)  # 下载css
-    res = downimg(res, path, downurl)  # 下载css
+    res = downimg(res, path, downurl)  # 下载img
     savepage(res, 'web/index.html')  # 保存页面
 
 

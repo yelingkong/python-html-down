@@ -3,11 +3,13 @@ import re
 from urllib.parse import urlparse
 import os
 import random
+import hashlib
 
 
 # 下载文件
 def download_file(url, path, savepath):
     print('下载文件:' + url)
+    makedir(path + '/' + savepath)
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36 QIHU 360SE"}
     r = requests.get(url, headers=headers)
@@ -15,15 +17,44 @@ def download_file(url, path, savepath):
     name = getFileName(url)
     name2 = path + '/' + savepath + getFileName(url)
     name3 = reFileName(name)
-    print(name3)
+    # 判断是否有重名文件
     if ifHasSameFile(name2):
         with open(path + '/' + savepath + name3, "wb") as code:
             code.write(r.content)
-        return savepath + name3
+            # 判断是否需要删除新文件
+        if ifNeedDelete(name2, path + '/' + savepath + name3):
+            return savepath + name
+        else:
+            return savepath + name3
     else:
         with open(name2, "wb") as code:
             code.write(r.content)
         return savepath + name
+
+
+def getHash(f):
+    line = f.readline()
+    hash = hashlib.md5()
+    while (line):
+        hash.update(line)
+        line = f.readline()
+    return hash.hexdigest()
+
+
+def IsHashEqual(f1, f2):
+    str1 = getHash(f1)
+    str2 = getHash(f2)
+    return str1 == str2
+
+
+def ifNeedDelete(f1, f2):
+    f1s = open(f1, "rb")
+    f2s = open(f2, "rb")
+    if IsHashEqual(f1s, f2s):
+        os.remove(f2)
+        return True
+    else:
+        return False
 
 
 # 判断是否有同名文件
@@ -83,3 +114,26 @@ def geturl(s, downurl):
 def makedir(path):
     if not os.path.exists(path):
         os.mkdir(path)
+
+
+def Handlefile(nameurl, path, downurl):
+    file = open(path + '/' + nameurl, 'r')
+    content = file.read()
+    file.close()
+    rs = re.findall('url\((\S*)\)', content, re.S)
+    for item in rs:
+        if bool(re.search('data:image', item)):
+            print('base64图片不需要下载')
+        elif bool(re.search('../', item)):
+            download_file(geturl(replacex(item), downurl), path, 'images/')
+        else:
+            item = replacex(item)
+            download_file(geturl(replacex(item), downurl), path, 'images/')
+
+
+def replacex(str):
+    data = ['../', '"', '\'']
+    str2 = str
+    for item in data:
+        str2 = str2.replace(item, '', 100)
+    return str2
