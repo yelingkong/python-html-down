@@ -13,27 +13,29 @@ import utils
 
 
 def main():
-    if sys.argv[1]:
-        downurl = sys.argv[1]
-
-    if not downurl:
-        print('请输入下载地址')
-
-    if sys.argv[2]:
-
-        path = sys.argv[2]
-
-    else:
-        path = "web"
-
-    if sys.argv[3]:
-
-        file = sys.argv[3]
-
-    else:
-        file = "index.html"
-
-
+    # if sys.argv[1]:
+    #     downurl = sys.argv[1]
+    #
+    # if not downurl:
+    #     print('请输入下载地址')
+    #
+    # if sys.argv[2]:
+    #
+    #     path = sys.argv[2]
+    #
+    # else:
+    #     path = "web"
+    #
+    # if sys.argv[3]:
+    #
+    #     file = sys.argv[3]
+    #
+    # else:
+    #     file = "index.html"
+    #
+    downurl = "https://xclient.info"  # 需要下载的地址
+    path = 'web'  # 要保存的目录
+    file = 'index.html'  # 要保存的文件名
     utils.makedir(path)
     jiexi(downurl, path, file)
 
@@ -49,7 +51,10 @@ def jiexi(downurl, path, file):
     res = downjs(res, path, downurl)  # 下载js
     res = downcss(res, path, downurl)  # 下载css
     res = downimg(res, path, downurl)  # 下载img
+    # 下载页面css内的图片
+    res = utils.downCssbg(res, path, downurl)
     savepage(res, path + '/' + file)  # 保存页面
+
     print('下载完毕')
 
 

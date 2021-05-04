@@ -1,14 +1,6 @@
 ## 使用说明
 
-```
-python3 main.py '下载的地址' '保存的目录 默认当前目录web' '保存的文件名 默认index.html'
-```
-
-### 例
-
-```
-python3 main.py 'http://www.baidu.com/' 'web' 'index.html'
-```
+main.py修改参数
 
 ## 更新
 
@@ -24,3 +16,5 @@ python3 main.py 'http://www.baidu.com/' 'web' 'index.html'
 * 下载文件时携带Referer 避免防盗链导致无法下载
 * 添加懒加载图片中的下载
 
+### 2021年05月04日
+* 下载页面中以style形式的背景图片
