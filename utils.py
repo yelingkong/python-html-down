@@ -21,7 +21,7 @@ def download_file(url, path, savepath, downurl):
     name3 = reFileName(name)
     # 判断是否有重名文件
     if ifHasSameFile(name2):
-        with open(path + '/' + savepath + name3, "wb") as code:
+        with open(path + '/' + savepath + name3, "wb", encoding='utf-8-sig') as code:
             code.write(r.content)
             # 判断是否需要删除新文件
         if ifNeedDelete(name2, path + '/' + savepath + name3):
@@ -29,7 +29,7 @@ def download_file(url, path, savepath, downurl):
         else:
             return savepath + name3
     else:
-        with open(name2, "wb") as code:
+        with open(name2, "wb", encoding='utf-8-sig') as code:
             code.write(r.content)
         return savepath + name
 
@@ -50,8 +50,8 @@ def IsHashEqual(f1, f2):
 
 
 def ifNeedDelete(f1, f2):
-    f1s = open(f1, "rb")
-    f2s = open(f2, "rb")
+    f1s = open(f1, "rb", encoding='utf-8-sig')
+    f2s = open(f2, "rb", encoding='utf-8-sig')
     if IsHashEqual(f1s, f2s):
         os.remove(f2)
         return True
@@ -119,7 +119,7 @@ def makedir(path):
 
 
 def Handlefile(nameurl, path, downurl):
-    file = open(path + '/' + nameurl, 'r')
+    file = open(path + '/' + nameurl, 'r', encoding='utf-8-sig')
     content = file.read()
     file.close()
     rs = re.findall('url\((\S*)\)', content, re.S)
