@@ -8,7 +8,7 @@ import hashlib
 
 # 下载文件
 def download_file(url, path, savepath, downurl):
-    print('下载文件:' + url)
+    print(u"下载文件:" + url)
     makedir(path + '/' + savepath)
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36 QIHU 360SE",
@@ -21,16 +21,18 @@ def download_file(url, path, savepath, downurl):
     name3 = reFileName(name)
     # 判断是否有重名文件
     if ifHasSameFile(name2):
-        with open(path + '/' + savepath + name3, "wb", encoding='utf-8-sig') as code:
+        with open(path + '/' + savepath + name3, 'wb+') as code:
             code.write(r.content)
+            code.close()
             # 判断是否需要删除新文件
         if ifNeedDelete(name2, path + '/' + savepath + name3):
             return savepath + name
         else:
             return savepath + name3
     else:
-        with open(name2, "wb", encoding='utf-8-sig') as code:
+        with open(name2, 'wb+') as code:
             code.write(r.content)
+            code.close()
         return savepath + name
 
 
@@ -50,9 +52,11 @@ def IsHashEqual(f1, f2):
 
 
 def ifNeedDelete(f1, f2):
-    f1s = open(f1, "rb", encoding='utf-8-sig')
-    f2s = open(f2, "rb", encoding='utf-8-sig')
+    f1s = open(f1, "rb")
+    f2s = open(f2, "rb")
     if IsHashEqual(f1s, f2s):
+        f1s.close()
+        f2s.close()
         os.remove(f2)
         return True
     else:
@@ -125,7 +129,7 @@ def Handlefile(nameurl, path, downurl):
     rs = re.findall('url\((\S*)\)', content, re.S)
     for item in rs:
         if bool(re.search('data:', item)):
-            print('base64图片不需要下载')
+            print(u"base64图片不需要下载")
         elif bool(re.search('../', item)):
             download_file(geturl(replacex(item), downurl), path, 'images/', downurl)
         else:
@@ -135,10 +139,11 @@ def Handlefile(nameurl, path, downurl):
 
 # 下载页面内css的背景图片
 def downCssbg(content, path, downurl):
+    print(path)
     rs = re.findall('url\((\S*)\)', content, re.S)
     for item in rs:
         if bool(re.search('data:', item)):
-            print('base64图片不需要下载')
+            print(u"base64图片不需要下载")
         elif bool(re.search('../', item)):
             content = content.replace(item, download_file(geturl(replacex(item), downurl), path, 'images/', downurl))
         else:
