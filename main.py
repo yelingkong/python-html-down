@@ -7,14 +7,19 @@ from down.downimage import downimg
 from down.downjs import downjs
 from savepage.savepage import savepage
 import utils
+import sys
 
 
 def main():
-    downurl = "https://www.wanjunshijie.com"  # 需要下载的地址
+    downurl = "https://www.baidu.com"  # 需要下载的地址
     path = 'web'  # 要保存的目录
     file = 'index.html'  # 要保存的文件名
+    # downurl = sys.argv[1]  # 需要下载的地址 如https://www.wanjunshijie.com
+    # path = sys.argv[2]  # 要保存的目录 如 web
+    # file = sys.argv[3]  # 要保存的文件名 如 index.html
     utils.makedir(path)
     jiexi(downurl, path, file)
+
 
 def jiexi(downurl, path, file):
     headers = {
@@ -37,4 +42,3 @@ def jiexi(downurl, path, file):
 
 if __name__ == '__main__':
     main()
-

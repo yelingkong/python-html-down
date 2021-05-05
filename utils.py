@@ -126,10 +126,11 @@ def Handlefile(nameurl, path, downurl):
     file = open(path + '/' + nameurl, 'r', encoding='utf-8-sig')
     content = file.read()
     file.close()
-    rs = re.findall('url\((\S*)\)', content, re.S)
+    rs = re.findall('url\((\S*?)\)', content, re.S)
     for item in rs:
         if bool(re.search('data:', item)):
             print(u"base64图片不需要下载")
+            print(item)
         elif bool(re.search('../', item)):
             download_file(geturl(replacex(item), downurl), path, 'images/', downurl)
         else:
@@ -140,7 +141,7 @@ def Handlefile(nameurl, path, downurl):
 # 下载页面内css的背景图片
 def downCssbg(content, path, downurl):
     print(path)
-    rs = re.findall('url\((\S*)\)', content, re.S)
+    rs = re.findall('url\((\S*?)\)', content, re.S)
     for item in rs:
         if bool(re.search('data:', item)):
             print(u"base64图片不需要下载")
