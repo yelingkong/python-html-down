@@ -5,13 +5,15 @@ import os
 import random
 import hashlib
 
+imglist = ['.jpg', '.png', '.jpeg', '.gif', '.svg', '..eot', '.woff', 'ttf']
+
 
 # 下载文件
 def download_file(url, path, savepath, downurl):
     print(u"下载文件:" + url)
     makedir(path + '/' + savepath)
     headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36 QIHU 360SE",
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.85 Safari/537.36",
         "Referer": downurl
     }
     r = requests.get(url, headers=headers)
@@ -128,14 +130,16 @@ def Handlefile(nameurl, path, downurl):
     file.close()
     rs = re.findall('url\((\S*?)\)', content, re.S)
     for item in rs:
-        if bool(re.search('data:', item)):
-            print(u"base64图片不需要下载")
-            print(item)
-        elif bool(re.search('../', item)):
-            download_file(geturl(replacex(item), downurl), path, 'images/', downurl)
-        else:
-            item = replacex(item)
-            download_file(geturl(replacex(item), downurl), path, 'images/', downurl)
+        for imgitem in imglist:
+            if bool(re.search(imgitem, item)):
+                if bool(re.search('data:', item)):
+                    print(u"base64图片不需要下载")
+                    print(item)
+                elif bool(re.search('../', item)):
+                    download_file(geturl(replacex(item), downurl), path, 'images/', downurl)
+                else:
+                    item = replacex(item)
+                    download_file(geturl(replacex(item), downurl), path, 'images/', downurl)
 
 
 # 下载页面内css的背景图片
@@ -143,15 +147,19 @@ def downCssbg(content, path, downurl):
     print(path)
     rs = re.findall('url\((\S*?)\)', content, re.S)
     for item in rs:
-        if bool(re.search('data:', item)):
-            print(u"base64图片不需要下载")
-        elif bool(re.search('../', item)):
-            content = content.replace(item, download_file(geturl(replacex(item), downurl), path, 'images/', downurl))
-        else:
-            item = replacex(item)
-            content = content.replace(item, download_file(geturl(replacex(item), downurl), path, 'images/', downurl))
+        for imgitem in imglist:
+            if bool(re.search(imgitem, item)):
+                if bool(re.search('data:', item)):
+                    print(u"base64图片不需要下载")
+                    print(item)
+                elif bool(re.search('../', item)):
+                    content = content.replace(item,
+                                              download_file(geturl(replacex(item), downurl), path, 'images/', downurl))
+                else:
+                    item = replacex(item)
+                    content = content.replace(item,
+                                              download_file(geturl(replacex(item), downurl), path, 'images/', downurl))
     return content
-
 
 
 def replacex(str):
