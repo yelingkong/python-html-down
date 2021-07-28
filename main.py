@@ -11,7 +11,7 @@ import sys
 
 
 def main():
-    downurl = "https://www.wanjunshijie.com"  # 需要下载的地址
+    downurl = "https://www.wanjunshijie.com/note/uniapp/943.html"  # 需要下载的地址
     path = 'web'  # 要保存的目录
     file = 'index.html'  # 要保存的文件名
     # downurl = sys.argv[1]  # 需要下载的地址 如https://www.wanjunshijie.com

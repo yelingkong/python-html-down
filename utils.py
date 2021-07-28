@@ -109,14 +109,20 @@ def generate_random_str(randomlength=16):
 
 
 # 域名处理
+# s 获取到的文件路径
+# downurl 获取需要下载的地址
 def geturl(s, downurl):
+    # 判断字符串首字符是否为斜杠
     if (urlparse(s).netloc):
         if (urlparse(s).scheme):
             return urlparse(s).scheme + '://' + urlparse(s).netloc + urlparse(s).path
         else:
             return 'http://' + urlparse(s).netloc + urlparse(s).path
     else:
-        return urlparse(downurl).scheme + '://' + urlparse(downurl).netloc + '/' + s
+        if (s[0] == "/"):
+            return urlparse(downurl).scheme + '://' + urlparse(downurl).netloc + '/' + s
+        else:
+            return downurl.rsplit('/', 1)[0] + '/' + s
 
 
 def makedir(path):
